@@ -1,6 +1,7 @@
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -34,6 +35,9 @@ public class SingleServerJPB1 {
             
             DataOutputStream outputToClient =
                     new DataOutputStream(socket.getOutputStream());
+
+            File loginFile = new File(
+                    "Database/login.txt");
             
             //server loop listening for the client 
             //and responding

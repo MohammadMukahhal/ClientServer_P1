@@ -12,8 +12,7 @@ public class SingleClientJPB1 {
         
         DataOutputStream toServer;
         DataInputStream fromServer;
-        Scanner input = 
-                new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
         String message;
         
         //attempt to connect to the server
