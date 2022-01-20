@@ -39,10 +39,19 @@ public class SingleServerJPB1 {
             //and responding
             while(true) {
                 String strReceived = inputFromClient.readUTF();
-                
-                if(strReceived.equalsIgnoreCase("hello")) {
-                    System.out.println("Sending hello to client");
-                    outputToClient.writeUTF("hello client!");
+                String[] data = strReceived.split(" ");
+                String command = data[0];
+                String param1 = "";
+                String param2 = "";
+                if(data.length > 0){
+                    param1 = data[1];
+                    if(data.length > 1){
+                        param2 = data[2];
+                    }
+                }
+                if(command.equalsIgnoreCase("LOGIN")) {
+                    System.out.println("Sending Client Login Message");
+                    outputToClient.writeUTF("Login Called for username: " + param1 + " and password: " + param2);
                 }
                 else if(strReceived.equalsIgnoreCase("quit")) {
                     System.out.println("Shutting down server...");
