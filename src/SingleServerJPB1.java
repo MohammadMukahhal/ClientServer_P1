@@ -125,7 +125,13 @@ public class SingleServerJPB1 {
                             // Print the string
                             solutionArray.add(solutionString);
                         }
-                        outputToClient.writeUTF("\n" + currentUser + "\n" + solutionArray);
+                        String output;
+                        //outputToClient.writeUTF("\n" + currentUser + "\n");
+                        output = "\n" + currentUser;
+                        for (String element : solutionArray) {
+                            output = output + "\n" + element;
+                        }
+                        outputToClient.writeUTF(output);
 
                     }
                     else{
