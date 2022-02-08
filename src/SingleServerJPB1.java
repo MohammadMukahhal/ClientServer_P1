@@ -65,7 +65,7 @@ public class SingleServerJPB1 {
                     if(data.length > 2){
                         param2 = data[2];
                         if(data.length > 3){
-                            param2 = data[3];
+                            param3 = data[3];
                         }
                     }
                 }
@@ -99,6 +99,8 @@ public class SingleServerJPB1 {
                         }
                     }
                     else if(param1.equals("-r")){
+
+                       outputToClient.writeUTF( solveRect(param2, param3) );
 
                     }
                     else if(!isLoggedIn){
@@ -135,5 +137,14 @@ public class SingleServerJPB1 {
         double area = Math.PI * Math.pow(Double.parseDouble(param2),2);
         DecimalFormat df = new DecimalFormat("##.##");
         return "Circle’s circumference is " + df.format(circum) + " and area is " + df.format(area);
+    }
+    private static String solveRect(String param2, String param3){
+        if(param3 == ""){
+            param3 = param2;
+        }
+        double perimeter = (Double.parseDouble(param2) + Double.parseDouble(param3))*2;
+        double area = Double.parseDouble(param2) * Double.parseDouble(param3);
+        DecimalFormat df = new DecimalFormat("##.##");
+        return "The area is " + df.format(area) + " and perimeter is " + df.format(perimeter);
     }
 }
