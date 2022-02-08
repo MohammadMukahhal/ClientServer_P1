@@ -112,6 +112,27 @@ public class SingleServerJPB1 {
                         System.out.println( currentUser + " called an invalid operation in SOLVE");
                     }
                 }
+                else if(command.equalsIgnoreCase("LIST")) {
+                    if(isLoggedIn) {
+                        String solutionsFilePath = "Database/" + currentUser + "_solutions.txt";
+                        File solutionsFile = new File(
+                                solutionsFilePath);
+                        BufferedReader brSolution
+                                = new BufferedReader(new FileReader(solutionsFile));
+                        ArrayList<String> solutionArray = new ArrayList<>();
+                        String solutionString;
+                        while ((solutionString = brSolution.readLine()) != null) {
+                            // Print the string
+                            solutionArray.add(solutionString);
+                        }
+                        outputToClient.writeUTF("\n" + currentUser + "\n" + solutionArray);
+
+                    }
+                    else{
+                        outputToClient.writeUTF("Error:  Can not do that without being logged in");
+                        System.out.println("Error:  User attempted to list without logging in");
+                    }
+                }
                 else if(strReceived.equalsIgnoreCase("quit")) {
                     System.out.println("Shutting down server...");
                     outputToClient.writeUTF("Shutting down server...");
