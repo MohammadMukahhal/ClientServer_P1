@@ -2,6 +2,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,6 +26,9 @@ public class SingleServerJPB1 {
             //listen for a connection
             //using a regular *client* socket
             Socket socket = serverSocket.accept();
+            boolean isLoggedIn = false;
+            boolean isAdmin = false;
+            String currentUser = "";
             
             //now, prepare to send and receive data
             //on output streams
@@ -55,10 +59,14 @@ public class SingleServerJPB1 {
                 String command = data[0];
                 String param1 = "";
                 String param2 = "";
+                String param3 = "";
                 if(data.length > 1){
                     param1 = data[1];
                     if(data.length > 2){
                         param2 = data[2];
+                        if(data.length > 3){
+                            param2 = data[3];
+                        }
                     }
                 }
                 if(command.equalsIgnoreCase("LOGIN")) {
@@ -67,10 +75,39 @@ public class SingleServerJPB1 {
                     if(loginArray.contains(param1 + " " + param2)){
                         outputToClient.writeUTF("SUCCESS");
                         System.out.println( param1 + " Logged in successfully");
+                        isLoggedIn = true;
+                        currentUser = param1;
+                        if(currentUser.equals("root")){
+                            isAdmin = true;
+                        }
                     }
                     else{
                         outputToClient.writeUTF("FAILURE: Please provide correct username and password.  Try again.");
                         System.out.println( param1 + " Did not login, failed attempt, maybe a scam?");
+                    }
+                }
+                else if(command.equalsIgnoreCase("SOLVE")) {
+                    if(param1.equals("-c") && isLoggedIn == true){
+                        if(param2 != "" && param3 == "") {
+                            String output = solveCircle(param2);
+                            outputToClient.writeUTF(output);
+                            System.out.println(output);
+                        }
+                        else{
+                            outputToClient.writeUTF("Error:  No radius found");
+                            System.out.println("Error:  No radius found");
+                        }
+                    }
+                    else if(param1.equals("-r")){
+
+                    }
+                    else if(!isLoggedIn){
+                        outputToClient.writeUTF("Error:  Can not do that without being logged in");
+                        System.out.println("Error:  User attempted to solve without logging in");
+                    }
+                    else{
+                        outputToClient.writeUTF("Invalid operation");
+                        System.out.println( currentUser + " called an invalid operation in SOLVE");
                     }
                 }
                 else if(strReceived.equalsIgnoreCase("quit")) {
@@ -93,4 +130,10 @@ public class SingleServerJPB1 {
             ex.printStackTrace();
         }//end try-catch
     }//end createCommunicationLoop
+    private static String solveCircle(String param2){
+        double circum = 2*Math.PI*Double.parseDouble(param2);
+        double area = Math.PI * Math.pow(Double.parseDouble(param2),2);
+        DecimalFormat df = new DecimalFormat("##.##");
+        return "Circle’s circumference is " + df.format(circum) + " and area is " + df.format(area);
+    }
 }
