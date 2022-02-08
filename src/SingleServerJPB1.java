@@ -128,10 +128,71 @@ public class SingleServerJPB1 {
                         String output;
                         //outputToClient.writeUTF("\n" + currentUser + "\n");
                         output = "\n" + currentUser;
+                        if(solutionArray.isEmpty()){
+                            solutionArray.add("          No interactions yet");
+                        }
                         for (String element : solutionArray) {
                             output = output + "\n" + element;
                         }
-                        outputToClient.writeUTF(output);
+                        if(!isAdmin && param1 == "-all"){
+                            outputToClient.writeUTF("Error:  you are not the root user");
+                        }
+                        else if(param1 == "") {
+                            outputToClient.writeUTF(output);
+                        }
+                        else if(isAdmin && param1 == "-all"){
+                            File solutionsFileJohn = new File(
+                                    "Database/john_solutions.txt");
+                            BufferedReader brSolutionJohn
+                                    = new BufferedReader(new FileReader(solutionsFileJohn));
+                            ArrayList<String> solutionArrayJohn = new ArrayList<>();
+                            while ((solutionString = brSolutionJohn.readLine()) != null) {
+                                // Print the string
+                                solutionArrayJohn.add(solutionString);
+                            }
+                            output = output + "\n john";
+                            if(solutionArrayJohn.isEmpty()){
+                                solutionArray.add("          No interactions yet");
+                            }
+                            for (String element : solutionArrayJohn) {
+                                output = output + "\n" + element;
+                            }
+
+                            File solutionsFileSally = new File(
+                                    "Database/sally_solutions.txt");
+                            BufferedReader brSolutionSally
+                                    = new BufferedReader(new FileReader(solutionsFileSally));
+                            ArrayList<String> solutionArraySally = new ArrayList<>();
+                            while ((solutionString = brSolutionSally.readLine()) != null) {
+                                // Print the string
+                                solutionArraySally.add(solutionString);
+                            }
+                            output = output + "\n sally";
+                            if(solutionArraySally.isEmpty()){
+                                solutionArray.add("          No interactions yet");
+                            }
+                            for (String element : solutionArraySally) {
+                                output = output + "\n" + element;
+                            }
+
+                            File solutionsFileQiang = new File(
+                                    "Database/qiang_solutions.txt");
+                            BufferedReader brSolutionQiang
+                                    = new BufferedReader(new FileReader(solutionsFileQiang));
+                            ArrayList<String> solutionArrayQiang = new ArrayList<>();
+                            while ((solutionString = brSolutionQiang.readLine()) != null) {
+                                // Print the string
+                                solutionArrayQiang.add(solutionString);
+                            }
+                            output = output + "\n qiang";
+                            if(solutionArrayQiang.isEmpty()){
+                                solutionArray.add("          No interactions yet");
+                            }
+                            for (String element : solutionArrayQiang) {
+                                output = output + "\n" + element;
+                            }
+                            outputToClient.writeUTF(output);
+                        }
 
                     }
                     else{
