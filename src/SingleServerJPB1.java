@@ -127,20 +127,21 @@ public class SingleServerJPB1 {
                         }
                         String output;
                         //outputToClient.writeUTF("\n" + currentUser + "\n");
-                        output = "\n" + currentUser;
+                        output = "\n " + currentUser;
                         if(solutionArray.isEmpty()){
                             solutionArray.add("          No interactions yet");
                         }
                         for (String element : solutionArray) {
                             output = output + "\n" + element;
                         }
-                        if(!isAdmin && param1 == "-all"){
+                        if(!isAdmin && param1.equals("-all")){
                             outputToClient.writeUTF("Error:  you are not the root user");
                         }
                         else if(param1 == "") {
                             outputToClient.writeUTF(output);
                         }
-                        else if(isAdmin && param1 == "-all"){
+                        else if(isAdmin && param1.equals("-all")){
+                            System.out.println("I am in the start");
                             File solutionsFileJohn = new File(
                                     "Database/john_solutions.txt");
                             BufferedReader brSolutionJohn
@@ -152,12 +153,12 @@ public class SingleServerJPB1 {
                             }
                             output = output + "\n john";
                             if(solutionArrayJohn.isEmpty()){
-                                solutionArray.add("          No interactions yet");
+                                solutionArrayJohn.add("          No interactions yet");
                             }
                             for (String element : solutionArrayJohn) {
                                 output = output + "\n" + element;
                             }
-
+                            System.out.println("I just finished john");
                             File solutionsFileSally = new File(
                                     "Database/sally_solutions.txt");
                             BufferedReader brSolutionSally
@@ -169,12 +170,12 @@ public class SingleServerJPB1 {
                             }
                             output = output + "\n sally";
                             if(solutionArraySally.isEmpty()){
-                                solutionArray.add("          No interactions yet");
+                                solutionArraySally.add("          No interactions yet");
                             }
                             for (String element : solutionArraySally) {
                                 output = output + "\n" + element;
                             }
-
+                            System.out.println("I just finished sally");
                             File solutionsFileQiang = new File(
                                     "Database/qiang_solutions.txt");
                             BufferedReader brSolutionQiang
@@ -186,12 +187,16 @@ public class SingleServerJPB1 {
                             }
                             output = output + "\n qiang";
                             if(solutionArrayQiang.isEmpty()){
-                                solutionArray.add("          No interactions yet");
+                                solutionArrayQiang.add("          No interactions yet");
                             }
                             for (String element : solutionArrayQiang) {
                                 output = output + "\n" + element;
                             }
+                            System.out.println(output);
                             outputToClient.writeUTF(output);
+                        }
+                        else{
+                            System.out.println("Error occurred unkown input");
                         }
 
                     }
