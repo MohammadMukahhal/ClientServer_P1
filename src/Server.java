@@ -119,7 +119,7 @@ public class Server {
                         {
                             outputToClient.writeUTF("Error:  No radius found");
                             System.out.println("Error:  No radius found");
-                            writeOnFile(currentUser, strReceived, "Error: No radius found");
+                            writeOnFile(currentUser, strReceived, "No radius found");
 
                         }
                     } else if (param1.equals("-r") && isLoggedIn) {
@@ -133,9 +133,9 @@ public class Server {
                         outputToClient.writeUTF("Error:  Can not do that without being logged in");
                         System.out.println("Error:  User attempted to solve without logging in");
                     } else {
-                        outputToClient.writeUTF("Invalid operation");
+                        outputToClient.writeUTF("300 Invalid operation");
                         System.out.println(currentUser + " called an invalid operation in SOLVE");
-                        writeOnFile(currentUser, strReceived, "Invalid Operation");
+                        writeOnFile(currentUser, strReceived, "301 invalid command");
 
                     }
                 }
@@ -224,29 +224,30 @@ public class Server {
                             }
                             System.out.println(output);
                             outputToClient.writeUTF(output);
-                            writeOnFile(currentUser, strReceived, "LIST PORVIDED");
+                            writeOnFile(currentUser, strReceived, "LIST PROVIDED");
 
                         } else {
-                            System.out.println("Error occurred unkown input");
+                            System.out.println("Error occurred unknown input");
                         }
 
                     } else {
-                        outputToClient.writeUTF("Error:  Can not do that without being logged in");
+                        outputToClient.writeUTF("Error 301:  Can not do that without being logged in");
                         System.out.println("Error:  User attempted to list without logging in");
                     }
                 } else if (strReceived.equalsIgnoreCase("logout") || strReceived.equalsIgnoreCase("log out")) {
                     if (!isLoggedIn) {
-                        outputToClient.writeUTF("You are not logged in");
+                        outputToClient.writeUTF("Eroor 301: You are not logged in");
                     } else {
                         isLoggedIn = false;
-                        outputToClient.writeUTF("You have logged out");
+                        outputToClient.writeUTF("200 OK");
                         System.out.println("User has logged out");
-                        writeOnFile(currentUser, strReceived, "You have logged out");
+                        writeOnFile(currentUser, strReceived, "200 OK");
 
                     }
                 } else if (strReceived.equalsIgnoreCase("quit")) {
                     System.out.println("Shutting down server...");
-                    outputToClient.writeUTF("Shutting down server...");
+                    outputToClient.writeUTF("200 OK");
+                    writeOnFile(currentUser, strReceived, "200 OK");
                     serverSocket.close();
                     socket.close();
                     break;  //get out of loop
