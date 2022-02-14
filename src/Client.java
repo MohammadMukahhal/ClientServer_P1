@@ -4,7 +4,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 
-public class SingleClientJPB1 {
+public class Client {
     
     private static final int SERVER_PORT = 8765;
 
