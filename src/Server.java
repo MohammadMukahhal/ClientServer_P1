@@ -122,14 +122,16 @@ public class Server {
                             writeOnFile(currentUser, strReceived, "No radius found");
 
                         }
-                    } else if (param1.equals("-r") && isLoggedIn) {
+                    } else if (param1.equals("-r") && isLoggedIn&& !param2.equals("")) { //Only if param is given
+
 
                         outputToClient.writeUTF(solveRect(param2, param3));
-                        writeOnFile(currentUser, strReceived, solveRect(param2,param3));
+                        writeOnFile(currentUser, strReceived, solveRect(param2, param3));
+                    }
 
 
 
-                    } else if (!isLoggedIn) {
+                    else if (!isLoggedIn) {
                         outputToClient.writeUTF("Error:  Can not do that without being logged in");
                         System.out.println("Error:  User attempted to solve without logging in");
                     } else {
