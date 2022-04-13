@@ -1,0 +1,6 @@
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: Solve -c 3
+	 S: Circle’s circumference is 18.85 and area is 28.27
+	 C: quit
+	 S: 200 OK

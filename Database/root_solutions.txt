@@ -1,0 +1,6 @@
+	 C: login root root22
+	 S: SUCCESS
+	 C: list
+	 S: LIST OF HISTORY
+	 C: quit
+	 S: 200 OK
