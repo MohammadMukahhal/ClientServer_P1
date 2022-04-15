@@ -12,15 +12,24 @@ public class ClientHandler implements Runnable {
     private Socket socket;  //connected socket
     private ServerSocket serverSocket;  //server's socket
     private int clientNumber;
+    public String currentUser = "";
+    DataOutputStream outputToClient;
+    DataInputStream inputFromClient;
     
     //create an instance
-    public ClientHandler(int clientNumber, Socket socket, ServerSocket serverSocket) {
+    public ClientHandler(int clientNumber, Socket socket, ServerSocket serverSocket, DataOutputStream outputToClient, DataInputStream inputFromClient) throws IOException {
         this.socket = socket;
         this.serverSocket = serverSocket;
         this.clientNumber = clientNumber;
+        this.outputToClient = outputToClient;
+        this.inputFromClient = inputFromClient;
+        //outputToClient = new DataOutputStream(socket.getOutputStream());
     }//end ctor
-    
-    
+
+    public void sendMessage(String message) throws IOException {
+        outputToClient.writeUTF(message);
+    }
+
     //run() method is required by all
     //Runnable implementers
     @Override
@@ -28,13 +37,9 @@ public class ClientHandler implements Runnable {
         //run the thread in here
         boolean isLoggedIn = false;
         boolean isAdmin = false;
-        String currentUser = "";
         try {
-            DataInputStream inputFromClient =
-                    new DataInputStream(socket.getInputStream());
-            
-            DataOutputStream outputToClient = 
-                    new DataOutputStream(socket.getOutputStream());
+            //DataInputStream inputFromClient = new DataInputStream(socket.getInputStream());
+
             File loginFile = new File(
                     "Database/login.txt");
             BufferedReader br
@@ -78,6 +83,8 @@ public class ClientHandler implements Runnable {
 
                         isLoggedIn = true;
                         currentUser = param1;
+                        MultiServerJPB1.ar.add(this);
+                        MultiServerJPB1.isActive.add(currentUser);
 
                         if (currentUser.equals("root")) {
                             isAdmin = true;
@@ -219,20 +226,73 @@ public class ClientHandler implements Runnable {
                         outputToClient.writeUTF("Error 301:  Can not do that without being logged in");
                         System.out.println("Error:  User attempted to list without logging in");
                     }
-                } else if (strReceived.equalsIgnoreCase("logout") || strReceived.equalsIgnoreCase("log out")) {
+                } else if (command.equalsIgnoreCase("logout") || strReceived.equalsIgnoreCase("log out")) {
                     if (!isLoggedIn) {
                         outputToClient.writeUTF("Eroor 301: You are not logged in");
                     } else {
                         isLoggedIn = false;
+                        MultiServerJPB1.ar.remove(this);
+                        MultiServerJPB1.isActive.remove(currentUser);
                         outputToClient.writeUTF("200 OK");
                         System.out.println("User has logged out");
                         writeOnFile(currentUser, strReceived, "200 OK");
 
                     }
-                } else if (strReceived.equalsIgnoreCase("quit")) {
+                } else if (command.equalsIgnoreCase("message")) {
+                    if (MultiServerJPB1.isActive.contains(param1)){
+                        String message = "";
+                        for(int i = 2; i < data.length; i++){
+                            message = message + " " + data[i];
+                        }
+                        for (ClientHandler mc : MultiServerJPB1.ar)
+                        {
+                            // if the recipient is found, write on its
+                            // output stream
+                            if (mc.currentUser.equalsIgnoreCase(param1))
+                            {
+                                System.out.println("Sending message from " +currentUser + " To " + param1);
+                                mc.sendMessage("Message from " + this.currentUser+" : " + message);
+                                break;
+                            }
+                        }
+                        outputToClient.writeUTF("Message sent to " + param1);
+                    }
+                    else if(param1.equalsIgnoreCase(param1)){
+                        if(currentUser.equalsIgnoreCase("root")){
+                            String message = "";
+                            for(int i = 2; i < data.length; i++){
+                                message = message + " " + data[i];
+                            }
+                            for (ClientHandler mc : MultiServerJPB1.ar)
+                            {
+                                System.out.println("Sending message from " + currentUser + " To " + param1);
+                                mc.sendMessage("Message from " + this.currentUser+" : " + message);
+                            }
+                            outputToClient.writeUTF("Message sent to " + param1);
+                        }
+                        else {
+                            outputToClient.writeUTF("Only root user can do that!");
+                        }
+                    }
+                    else if(MultiServerJPB1.isUser.contains(param1)){
+                        System.out.println("User " + param1 + " is not logged in");
+                        System.out.println("Informing client");
+                        outputToClient.writeUTF("User " + param1 + " is not logged in!");
+                    }
+                    else{
+                        System.out.println("User " + param1 + " does not exist");
+                        System.out.println("Informing client");
+                        outputToClient.writeUTF("User does not exist!");
+                    }
+                }
+                else if (strReceived.equalsIgnoreCase("quit")) {
                     System.out.println("Shutting down server...");
                     outputToClient.writeUTF("200 OK");
                     writeOnFile(currentUser, strReceived, "200 OK");
+                    if (isLoggedIn) {
+                        MultiServerJPB1.ar.remove(this);
+                        MultiServerJPB1.isActive.remove(currentUser);
+                    }
                     serverSocket.close();
                     socket.close();
                     break;  //get out of loop

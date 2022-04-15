@@ -4,3 +4,5 @@
 	 S: LIST OF HISTORY
 	 C: quit
 	 S: 200 OK
+	 C: login root root22
+	 S: SUCCESS

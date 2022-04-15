@@ -9,46 +9,67 @@ public class ClientJPB1 {
     
     private static final int SERVER_PORT = 8765;
 
-    public static void main(String[] args) {
-        
+    public static void main(String[] args) throws IOException {
+
         DataOutputStream toServer;
         DataInputStream fromServer;
-        Scanner input = 
+        Scanner input =
                 new Scanner(System.in);
-        String message;
-        
+
         //attempt to connect to the server
-        try {
-            Socket socket = 
-                    new Socket("localhost", SERVER_PORT);
-            
-            //create input stream to receive data
-            //from the server
-            fromServer = 
-                    new DataInputStream(socket.getInputStream());
-            
-            toServer =
-                    new DataOutputStream(socket.getOutputStream());
-            
-             
-             while(true) {
-                System.out.print("Send command to server:\t");
-                message = input.nextLine();
-                toServer.writeUTF(message);
-                if(message.equalsIgnoreCase("quit")) {
-                    break;
+        Socket socket =
+                new Socket("localhost", SERVER_PORT);
+
+        //create input stream to receive data
+        //from the server
+        fromServer =
+                new DataInputStream(socket.getInputStream());
+
+        toServer =
+                new DataOutputStream(socket.getOutputStream());
+        // sendMessage thread
+        Thread sendMessage = new Thread(new Runnable()
+        {
+            @Override
+            public void run() {
+                while (true) {
+
+                    // read the message to deliver.
+                    System.out.print("Send command to server:\t");
+                    String msg = input.nextLine();
+
+                    try {
+                        // write on the output stream
+                        toServer.writeUTF(msg);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-                
-                //received message:
-                message = fromServer.readUTF();
-                 System.out.println("Server says: " + message);
-             }
-             
-        }
-        catch(IOException ex) {
-            ex.printStackTrace();
-        }//end try-catch
-        
-        
+            }
+        });
+        // readMessage thread
+        Thread readMessage = new Thread(new Runnable()
+        {
+            @Override
+            public void run() {
+
+                while (true) {
+                    try {
+                        // read the message sent to this client
+                        String msg = fromServer.readUTF();
+                        System.out.println(msg);
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        sendMessage.start();
+        readMessage.start();
+
+
+
     }//end main
 }

@@ -4,3 +4,51 @@
 	 S: Circle’s circumference is 18.85 and area is 28.27
 	 C: quit
 	 S: 200 OK
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: message john Hellow There!
+	 S: Unknown command. Please try again
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: solve -c 4
+	 S: Circle’s circumference is 25.13 and area is 50.27
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS
+	 C: login sally sally22
+	 S: SUCCESS

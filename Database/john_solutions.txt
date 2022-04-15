@@ -2,4 +2,53 @@
           Error:  No radius found
           Error:    No sides found
           sides 2 2:  Rectangle’s perimeter is 8.00 and area is 4.00
-          sides 2 6:  Rectangle’s perimeter is 16.00 and area is 12.00
+          sides 2 6:  Rectangle’s perimeter is 16.00 and area is 12.00	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: Solve -c 3
+	 S: Circle’s circumference is 18.85 and area is 28.27
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS
+	 C: login john john22
+	 S: SUCCESS

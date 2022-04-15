@@ -238,7 +238,7 @@ public class Server {
                     }
                 } else if (strReceived.equalsIgnoreCase("logout") || strReceived.equalsIgnoreCase("log out")) {
                     if (!isLoggedIn) {
-                        outputToClient.writeUTF("Eroor 301: You are not logged in");
+                        outputToClient.writeUTF("Error 301: You are not logged in");
                     } else {
                         isLoggedIn = false;
                         outputToClient.writeUTF("200 OK");
